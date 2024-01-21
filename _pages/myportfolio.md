@@ -10,6 +10,7 @@ sort_by: order
 <h1 id="page-title" class="page__title">
     <span style="font-size: 28pt">
         호기심 많은 프로그래머
+        <a href="https://github.com/kijin-Kim" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i></a>
     </span>
 </h1>
 
