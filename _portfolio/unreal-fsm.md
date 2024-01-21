@@ -32,7 +32,7 @@ header:
 
 ## 3. 에디터 설정
 다음은 State Machine의 블루프린트에 대한 설명입니다. 
-![fsm-editor](../assets/images/fsm-teaser.png)
+![alt]({{ site.url }}{{ site.baseurl }}/assets/images/fsm-teaser.png)
 - Root State Class: 최초의 상태머신의 시작 상태의 클래스를 나타냅니다.
 - States: 각각의 상태의 전환 로직에 대한 설정 항목입니다.
   - Transition State Class: 아래 로직에 의해 전환할 상태의 클래스를 나타냅니다.
