@@ -26,9 +26,9 @@ header:
 1. State Machine은 게임이 시작되면, 설정된 State Machine들의 정보를 바탕으로, State Machine을 인스턴스화하고
 각각의 State Machine의 OnBeginPlay 함수를 호출합니다.
 2. State Machine은 OnBeginPlay함수가 불리면 EnterNewState함수를 호출하여 Root State(최초 시작 상태)를 현재 상태로 만듭니다.
-3. EnterNewState에서는 현재 상태를 인스턴스화하고 Root State에 대한 Enter함수를 부르고 전환 로직 테스트 정책이 On Event인 컨디션에 대하여, 컨티션이 만족시
+3. EnterNewState에서는 현재 상태를 인스턴스화하고 Root State에 대한 Enter함수를 부르고 전환 로직 테스트 정책이 On Event인 컨디션에 대하여, 컨디션이 만족시
 다른 상태로 전환 될 수 있도록 델리게이트를 바인딩합니다.
-4. State Machine은 현재 상태에 대해 지속적으로 Tick함수를 호출하고, 전환 로직 테스트 정책이 On Tick인 컨티션에 대하여 매 틱마다 검사를 진행합니다.
+4. State Machine은 현재 상태에 대해 지속적으로 Tick함수를 호출하고, 전환 로직 테스트 정책이 On Tick인 컨디션에 대하여 매 틱마다 검사를 진행합니다.
 
 ## 3. 에디터 설정
 다음은 State Machine의 블루프린트에 대한 설명입니다. 
