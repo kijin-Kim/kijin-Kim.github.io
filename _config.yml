@@ -98,6 +98,7 @@ defaults:
       comments: true
       related: true
       share: false
+
   # _portfolio
   - scope:
       path: ""
@@ -106,7 +107,6 @@ defaults:
       layout: single
       author_profile: false
       share: false
-      
   # _pages
   - scope:
       path: "_pages"
@@ -126,3 +126,4 @@ github : [metadata]
 
 atom_feed:
   hide: true
+  
