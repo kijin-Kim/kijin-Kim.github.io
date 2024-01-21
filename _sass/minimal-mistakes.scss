@@ -1,0 +1,124 @@
+/*!
+ * Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+ * Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+ * Licensed under MIT (https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE)
+*/
+
+/* Variables */
+@import "minimal-mistakes/variables";
+
+/* Mixins and functions */
+@import "minimal-mistakes/vendor/breakpoint/breakpoint";
+@include breakpoint-set("to ems", true);
+@import "minimal-mistakes/vendor/magnific-popup/magnific-popup"; // Magnific Popup
+@import "minimal-mistakes/vendor/susy/susy";
+@import "minimal-mistakes/mixins";
+
+/* Core CSS */
+@import "minimal-mistakes/reset";
+@import "minimal-mistakes/base";
+@import "minimal-mistakes/forms";
+@import "minimal-mistakes/tables";
+@import "minimal-mistakes/animations";
+
+/* Components */
+@import "minimal-mistakes/buttons";
+@import "minimal-mistakes/notices";
+@import "minimal-mistakes/masthead";
+@import "minimal-mistakes/navigation";
+@import "minimal-mistakes/footer";
+@import "minimal-mistakes/search";
+@import "minimal-mistakes/syntax";
+
+/* Utility classes */
+@import "minimal-mistakes/utilities";
+
+/* Layout specific */
+@import "minimal-mistakes/page";
+@import "minimal-mistakes/archive";
+@import "minimal-mistakes/sidebar";
+@import "minimal-mistakes/print";
+
+
+.page {
+  float: left;
+  margin-top: 0em;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2em;
+  clear: both;
+  background-color: white;
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.sidebar__right {
+  @include breakpoint($small) {
+    padding-top: 4em;
+  }
+  @include breakpoint($large) {
+    padding-left: 4em;
+  }
+}
+
+.page__related {
+  @include breakpoint($large) {
+    float: none;
+    padding-right: 0;
+    margin-right: auto;
+  }
+} 
+
+.archive {
+  margin-top: 3em;
+  @include breakpoint($large) {
+    float: none;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .archive__item-teaser {
+    @include breakpoint($small) {
+      max-width: 1920px;
+      max-height: 1080px;
+    }
+
+    @include breakpoint($medium) {
+      max-width: 1920px;
+      max-height: 1080px;
+    }
+  }
+}
+
+
+.grid__item {
+  @include breakpoint($medium) {
+    float: left;
+    width: span(5 of 10);
+
+    &:nth-child(2n + 1) {
+      clear: both;
+      margin-left: 0;
+    }
+
+    &:nth-child(2n + 2) {
+      clear: none;
+      margin-left: gutter(of 10);
+    }
+  }
+}
+
+html {
+  @include breakpoint($medium) {
+    font-size: 11px;
+  }
+
+  @include breakpoint($large) {
+    font-size: 13px;
+  }
+
+  @include breakpoint($x-large) {
+    font-size: 15px;
+  }
+}
