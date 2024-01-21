@@ -15,15 +15,13 @@ header:
 
 ## 1. 서론
 이 문서는 언리얼 엔진으로 구현한 타겟팅 시스템에 대한 기술적인 내용을 담고있습니다.
-타겟팅 시스템은 플레이어가 원활하게 적을 타겟팅하고 전환할 수 있는 기능을 구현하는데 초점을 두었습니다.
-아래 문서는 기초적인 언리얼 엔진 게임프레임워크와 C++에 대한 이해와 고등학교 수준의 삼각함수에 대한 이해가 있다는 전제하에 진행됩니다.
 
 {% include video id="c_RUybooJAA?si=fnNBzhcZIb-7uy23" provider="youtube" %}
 
 
-### 3. 알고리즘
+### 2. 알고리즘
 
-#### 3.1 타겟팅 알고리즘
+#### 2.1 타겟팅 알고리즘
 1. **벡터 계산:**
    $$ \vec{V}_{\text{target}} = \vec{P}_{\text{target}} - \vec{P}_{\text{player}} $$
    여기서 $$ \vec{V}_{\text{target}} $$은 대상까지의 벡터, $$ \vec{P}_{\text{target}} $$은 대상의 위치, $$ \vec{P}_{\text{player}} $$는 플레이어의 위치를 나타냅니다.
@@ -41,7 +39,31 @@ header:
 5. **반복 과정:**
    이 과정을 모든 대상에 대해 반복합니다.
 
-#### 3.2 타겟팅 전환 알고리즘
+```cpp
+float MaxDot = -1.0f;
+for (AActor* Candidate : TargetCandidates)
+{
+	const FVector ToCandidate = UKismetMathLibrary::GetDirectionUnitVector(OwnerCamera->GetComponentLocation(), Candidate->GetActorLocation());
+	const float Dot = OwnerCamera->GetForwardVector().Dot(ToCandidate);
+	if (Dot > MaxDot)
+	{
+		FHitResult HitResult;
+		const TArray<AActor*> ActorsToIgnore;
+		UKismetSystemLibrary::SphereTraceSingle(this, OwnerCamera->GetComponentLocation(), Candidate->GetActorLocation(), 50.0f,
+		                                        TraceTypeQuery1,
+		                                        false, ActorsToIgnore, EDrawDebugTrace::None, HitResult, true);
+
+
+		if (HitResult.bBlockingHit && HitResult.GetActor() == Candidate)
+		{
+			TargetedActor = Candidate;
+			MaxDot = Dot;
+		}
+	}
+}
+```
+
+#### 2.2 타겟팅 전환 알고리즘
 1. **수평 벡터 계산:**
    $$ \vec{V}_{\text{target_flat}} = \vec{V}_{\text{target}} - (\vec{V}_{\text{target}} \cdot \hat{k}) \hat{k} $$
    여기서 $$ \hat{k} $$는 z축 단위 벡터입니다.
@@ -56,6 +78,45 @@ header:
 4. **타겟팅 전환의 수행:**
    타겟팅 알고리즘의 3, 4, 5번 과정을 동일하게 수행합니다.
 
+```cpp
+AActor* NewTargetedActor = nullptr;
+FVector CameraForwardProj = OwnerCamera->GetForwardVector();
+CameraForwardProj.Z = 0.0f;
+float MaxDot = -1.0f;
+for (AActor* Candidate : TargetCandidates)
+{
+	FVector CandidateLocation = Candidate->GetActorLocation();
+	FVector ToCandidate = UKismetMathLibrary::GetDirectionUnitVector(OwnerCamera->GetComponentLocation(), CandidateLocation);
+	ToCandidate.Z = 0.0f;
+	if (Candidate != TargetedActor)
+	{
+		const FVector Crossed = CameraForwardProj.Cross(ToCandidate);
+		if (bToRight ? Crossed.Z > 0 : Crossed.Z < 0)
+		{
+			const float Dot = CameraForwardProj.Dot(ToCandidate);
+			if (Dot > MaxDot)
+			{
+				FHitResult HitResult;
+				TArray<AActor*> ActorsToIgnore;
+				ActorsToIgnore.Add(TargetedActor);
+				UKismetSystemLibrary::SphereTraceSingle(this, OwnerCamera->GetComponentLocation(), Candidate->GetActorLocation(), 50.0f,
+				                                        TraceTypeQuery1,
+				                                        false, ActorsToIgnore, EDrawDebugTrace::None, HitResult, true);
+				if (HitResult.bBlockingHit && HitResult.GetActor() == Candidate)
+				{
+					NewTargetedActor = Candidate;
+					MaxDot = Dot;
+				}
+			}
+		}
+	}
+}
+
+if (NewTargetedActor)
+{
+	TargetedActor = NewTargetedActor;
+}
+```
 
 
 
