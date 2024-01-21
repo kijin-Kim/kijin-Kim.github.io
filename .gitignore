@@ -3,3 +3,11 @@ _site
 .jekyll-metadata
 Gemfile.lock
 assets/images/placeholder.gif
+
+_posts\2010-01-07-post-modified.md
+_posts\2010-01-07-post-standard.md
+_posts\2010-01-08-post-chat.md
+_posts\2010-02-05-post-notice.md
+_posts\2010-02-05-post-quote.md
+_posts\2010-03-07-post-link.md
+_posts\2019-04-18-welcome-to-jekyll.md
