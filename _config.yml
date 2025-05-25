@@ -126,4 +126,8 @@ github : [metadata]
 
 atom_feed:
   hide: true
-  
+
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "kijinkim"
