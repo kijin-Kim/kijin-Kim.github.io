@@ -92,8 +92,9 @@
 
       .toc {
         .toc__menu {
-          overflow-y: auto;
-          max-height: calc(100vh - 7em);
+          //overflow-y: auto;
+          overflow-y: hidden;
+          //max-height: calc(100vh - 7em);
         }
       }
     }

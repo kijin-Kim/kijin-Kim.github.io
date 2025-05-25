@@ -51,42 +51,39 @@
   border-right: 1px solid #ccc;
   border-left: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
-
 }
 
 
 // 코드 블록 폰트 사이즈 변경
 div.highlighter-rouge,
 figure.highlight {
-   @include breakpoint($medium) {
-    font-size: 16px;
-    letter-spacing: -0.05em;
-    line-height: 120%;
-  }
-
-  @include breakpoint($large) {
-    font-size: 17px;
-  }
-
-  @include breakpoint($x-large) {
-    font-size: 18px;
-  } 
-  
+  font-size: 14px;
   white-space: pre-wrap;
   overflow-x: hidden;
   word-wrap: break-word;
+  line-height: 1.25em;
 }
+
 
 .sidebar__right {
   @include breakpoint($small) {
     padding-top: 4em;
   }
+
   @include breakpoint($large) {
     padding-left: 4em;
   }
 
-}
+  overflow-x: hidden;
+  word-wrap: break-word;
 
+  .toc {
+    .toc__menu {
+      font-size: 14px;
+    }
+  }
+
+}
 
 
 .page__related {
@@ -95,16 +92,18 @@ figure.highlight {
     padding-right: 0;
     margin-right: auto;
   }
-} 
+}
 
 .archive {
   margin-top: 3em;
+
   @include breakpoint($large) {
     float: none;
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
   }
+
   .archive__item-teaser {
     @include breakpoint($small) {
       max-width: 1920px;
@@ -139,19 +138,19 @@ figure.highlight {
 
 body {
   @include breakpoint($medium) {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 35px;
     letter-spacing: -0.02em;
   }
 
   @include breakpoint($large) {
-    font-size: 17px;
-    line-height: 37px;
+    font-size: 16px;
+    line-height: 39px;
     letter-spacing: -0.02em;
   }
 
   @include breakpoint($x-large) {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 39px;
     letter-spacing: -0.02em;
   }
