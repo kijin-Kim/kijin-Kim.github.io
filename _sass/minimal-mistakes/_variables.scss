@@ -152,50 +152,31 @@ $notice-background-mix: 80% !default;
 $code-notice-background-mix: 90% !default;
 
 // /* syntax highlighting (base16) */
-// $base00: #263238 !default;
-// $base01: #2e3c43 !default;
-// $base02: #314549 !default;
-// $base03: #546e7a !default;
-// $base04: #b2ccd6 !default;
-// $base05: #eeffff !default;
-// $base06: #eeffff !default;
-// $base07: #ffffff !default;
-// $base08: #f07178 !default;
-// $base09: #f78c6c !default;
-// $base0a: #cf8e6d !default;
-// $base0b: #c3e88d !default;
-// $base0c: #89ddff !default;
-// $base0d: #ffc66d !default;
-// $base0e: #c792ea !default;
-// $base0f: #ff5370 !default;
-
-
-$base00: #333537 !default; // 배경색 (어두운 회색/검정)
-$base01: #26282e !default; // 더 밝은 배경색/선택 배경
-$base02: #2b2d30 !default; // 선택 배경
-$base03: #7a7e85 !default; // 코멘트, 접힌 코드 (회색)
-$base04: #6f737a !default; // 어두운 전경색
-$base05: #bcbec4 !default; // 기본 전경색 (밝은 회색)
-$base06: #dfe1e5 !default; // 밝은 전경색
-$base07: #ffffff !default; // 강조된 전경색 (흰색)
-$base08: #f75464 !default; // 변수, 태그, 오류 (빨강)
-$base09: #2aacb8 !default; // 정수, 부동 소수점 (청록)
-$base0a: #d5b778 !default; // 함수 이름, 속성 (노랑)
-$base0b: #6aab73 !default; // 문자열, 성공 (녹색)
-$base0c: #16baac !default; // 클래스 (청록)
-$base0d: #56a8f5 !default; // 함수, 메서드 (파랑)
-$base0e: #cf8e6d !default; // 키워드, 연산자 (주황)
-$base0f: #f2c55c !default; // 구분자, 경고 (노랑)
-
+$base00: #263238 !default;
+$base01: #2e3c43 !default;
+$base02: #314549 !default;
+$base03: #546e7a !default;
+$base04: #b2ccd6 !default;
+$base05: #eeffff !default;
+$base06: #eeffff !default;
+$base07: #ffffff !default;
+$base08: #f07178 !default;
+$base09: #f78c6c !default;
+$base0a: #cf8e6d !default;
+$base0b: #c3e88d !default;
+$base0c: #89ddff !default;
+$base0d: #ffc66d !default;
+$base0e: #c792ea !default;
+$base0f: #ff5370 !default;
 /*
    Breakpoints
    ========================================================================== */
 
-$small: 600px !default;
-$medium: 768px !default;
-$medium-wide: 900px !default;
-$large: 1024px !default;
-$x-large: 1280px !default;
+$small: 720px !default;
+$medium: 900px !default;
+$medium-wide: 1024px !default;
+$large: 1280px !default;
+$x-large: 1400px !default;
 $max-width: $x-large !default;
 
 /*

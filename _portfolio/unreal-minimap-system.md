@@ -40,15 +40,13 @@ struct FGunnerFogOfWarRenderTargets
 #### 2.1.2 플레이어별 렌더 타겟 생성 및 관리
 `AGunnerGameState`는 `PlayerFogOfWarRenderTargets` TMap을 사용해 각 플레이어 ID에 해당하는 `FGunnerFogOfWarRenderTargets` 인스턴스를 저장합니다. 이 함수는 렌더 타겟이 없으면 새로 생성하고, 있으면 반환하여 각 플레이어의 시야 및 정보가 독립적인 렌더 타겟에 그려지도록 합니다.
 ```cpp
- const FGunnerFogOfWarRenderTargets& AGunnerGameState::FindOrAddPlayerFogOfWarRenderTargets(int32 PlayerID)
+const FGunnerFogOfWarRenderTargets& AGunnerGameState::FindOrAddPlayerFogOfWarRenderTargets(int32 PlayerID)
 {
     if (!PlayerFogOfWarRenderTargets.Contains(PlayerID))
     {
         FGunnerFogOfWarRenderTargets NewRenderTargets;
-        NewRenderTargets.VisionConeRenderTarget = UCanvasRenderTarget2D::CreateCanvasRenderTarget2D(
-            GetWorld(), UCanvasRenderTarget2D::StaticClass(), 1024, 1024);
-        NewRenderTargets.InformationRenderTarget = UCanvasRenderTarget2D::CreateCanvasRenderTarget2D(
-            GetWorld(), UCanvasRenderTarget2D::StaticClass(), 1024, 1024);
+        NewRenderTargets.VisionConeRenderTarget = UCanvasRenderTarget2D::CreateCanvasRenderTarget2D(GetWorld(), UCanvasRenderTarget2D::StaticClass(), 1024, 1024);
+        NewRenderTargets.InformationRenderTarget = UCanvasRenderTarget2D::CreateCanvasRenderTarget2D(GetWorld(), UCanvasRenderTarget2D::StaticClass(), 1024, 1024);
         PlayerFogOfWarRenderTargets.Add(PlayerID, NewRenderTargets);
     }
     return PlayerFogOfWarRenderTargets[PlayerID];
@@ -76,28 +74,74 @@ void UGunnerFogOfWarComponent::SetupFogOfWar(APlayerState* PlayerState)
 ```cpp
 void AGunnerGameState::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-	for (auto& [PlayerID, RenderTargets] : PlayerFogOfWarRenderTargets)
-	{
-		if (RenderTargets.VisionConeRenderTarget)
-		{
-			RenderTargets.VisionConeRenderTarget->UpdateResource();
-		}
-
-		if (RenderTargets.InformationRenderTarget)
-		{
-			RenderTargets.InformationRenderTarget->UpdateResource();
-		}
-	}
+    Super::Tick(DeltaTime);
+    for (auto& [PlayerID, RenderTargets] : PlayerFogOfWarRenderTargets)
+    {
+        if (RenderTargets.VisionConeRenderTarget)
+        {
+            RenderTargets.VisionConeRenderTarget->UpdateResource();
+        }
+        if (RenderTargets.InformationRenderTarget)
+        {
+            RenderTargets.InformationRenderTarget->UpdateResource();
+        }
+    }
 }
 ```
 #### 2.1.4 정적 시야 오클루전 지오메트리 데이터 준비
+
+
+
+<img src="{{ site.url }}{{ site.baseurl }}/assets/images/minimap-system-static-data.png" alt="반응형 사진" width="70%">
+
+
 `GunnerMiniMapData.h`는 맵 지오메트리 데이터 구조화를 위한 `USTRUCT`들을 정의합니다.
-* `FGunnerGeometryVertex`: 맵 정점(X, Y 좌표) 정의.
-    
-* `FGunnerGeometryLine`: 두 정점(`Start`, `End` 인덱스)을 연결하는 선분 정의.
+* `FGunnerGeometryVertex`: 오클루전을 위한 선분을 이루는 정점의 좌표입니다.
+
+* `FGunnerGeometryLine`: 오클루전을 위한 선분에 대한 정의입니다. `Start`와 `End`는 각각 `FGunnerGeometryVertex`상의 정점의 인덱스를 지칭합니다.
     
 * `FGunnerGeometryGroup`: 정점, 선분, Z 높이(`ZHeight`)를 포함하는 논리적 맵 지오메트리 그룹 정의. `ZHeight`는 시야 차단 구현에 사용됩니다.
+
+```cpp
+/*선분을 이루는 정점의 좌표*/
+USTRUCT(BlueprintType)
+struct FGunnerGeometryVertex
+{
+	GENERATED_BODY();
+
+	UPROPERTY(EditAnywhere)
+	float X;
+	UPROPERTY(EditAnywhere)
+	float Y;
+};
+
+/*선분의 양 끝점의 인덱스*/
+USTRUCT(BlueprintType)
+struct FGunnerGeometryLine
+{
+	GENERATED_BODY();
+
+	UPROPERTY(EditAnywhere)
+	int32 Start;
+	UPROPERTY(EditAnywhere)
+	int32 End;
+};
+
+USTRUCT(BlueprintType)
+struct FGunnerGeometryGroup
+{
+	GENERATED_BODY();
+
+	UPROPERTY(EditAnywhere)
+	TArray<FGunnerGeometryVertex> Vertices;
+
+	UPROPERTY(EditAnywhere)
+	TArray<FGunnerGeometryLine> Lines;
+
+	UPROPERTY(EditAnywhere)
+	float ZHeight = 0.f;
+};
+```
 
 
 ### 2.2 시야 및 정보 렌더링
@@ -115,6 +159,7 @@ void AGunnerGameState::Tick(float DeltaTime)
         {
             // ... (교차점 계산 로직)
         }
+    
     ```    
     
 *   **`UGunnerMapGeometryData`를 통한 맵 데이터 주입**: `GeometryAsset` 프로퍼티를 통해 에디터에서 생성된 맵 지오메트리 데이터를 주입받아 시야 계산에 활용하며, 플레이어의 Z 높이와 맵 지오메트리 Z 높이 차이를 고려하여 시야 차단을 적용합니다.
@@ -164,6 +209,7 @@ TODO: 최종 GIF 또는 영상
 ## 3. 향후 개선 과제
 
 * **다른 오브젝트 표시**: 현재 플레이어 캐릭터 아이콘 위주이지만, 추후 게임 내 기능 확장에 따라 스킬, 구조물, 핑 등 다른 오브젝트를 추가 표시할 계획입니다.
+* **주기 최적화**: 현재는 매 프레임마다 시야 관련 계산을 하고 있지만, 추후 성능 최적화를 위하여 적절한 주기를 찾아 적용해야 합니다.
 
 ## 4. 마치며
 긴 글 읽어주셔서 감사합니다. 궁금한 점이나 피드백은 언제든지 환영합니다.

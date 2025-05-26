@@ -47,19 +47,14 @@
   margin-right: auto;
   padding: 2em;
   clear: both;
-  //background-color: white;
   border-right: 1px solid #ccc;
   border-left: 1px solid #ccc;
 }
 
-// 코드 블록 폰트 사이즈 변경
-div.highlighter-rouge,
-figure.highlight {
+
+.hljs {
   font-size: 14px;
-  white-space: pre-wrap;
-  overflow-x: hidden;
-  word-wrap: break-word;
-  line-height: 1.25em;
+  line-height: 1.5em;
 }
 
 

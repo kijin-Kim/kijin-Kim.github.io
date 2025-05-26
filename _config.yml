@@ -131,3 +131,9 @@ comments:
   provider: "disqus"
   disqus:
     shortname: "kijinkim"
+
+
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    disable: true # 이 줄을 추가하여 하이라이터를 비활성화합니다.
